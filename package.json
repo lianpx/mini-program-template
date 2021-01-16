@@ -1,0 +1,20 @@
+{
+  "name": "chapter_one",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --config webpack.config.js"
+  },
+  "author": "lianpx",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "copy-webpack-plugin": "^7.0.0",
+    "less": "^4.1.0",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1"
+  }
+}
