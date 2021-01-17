@@ -1,7 +1,12 @@
 const path = require('path')
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const babel = require('@babel/core')
 const less = require('less')
+
+const webpackConfig = {
+
+};
 
 module.exports = {
   mode: 'development',
@@ -11,6 +16,7 @@ module.exports = {
     path: path.join(__dirname, 'dist')
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -42,25 +48,27 @@ module.exports = {
           noErrorOnMissing:true
         },
         // {
-        //   from: '**/*.less',
+        //   from: '**/*.wxss',
         //   to: './',
-        //   transform(content, path) {
-        //     return less.render(content.toString())
-        //       .then(function (output) {
-        //         return output.css;
-        //       });
-        //   },
-        //   transformPath(targetPath) {
-        //     return targetPath.replace('.less', '.wxss')
-        //   }
+        //   context: './src',
+        //   noErrorOnMissing:true
         // },
+        {
+          from: '**/*.less',
+          to: "[path][name].wxss",
+          context: './src',
+          force: true,
+          transform(content, path) {
+            return less.render(content.toString())
+              .then(function (output) {
+                return output.css;
+              });
+          },
+        },
         {
           from: "**/*.js",
           to: "./",
           context: "./src",
-          globOptions: {
-            ignore: ["'*.test.js"]
-          },
           transform(content, path) {
             const newCode = babel.transformSync(content, {
               babelrc:true,
@@ -70,6 +78,6 @@ module.exports = {
           }
         },
       ],
-    }),
+    },{options: [{context: './src'}]}),
   ],
 }
